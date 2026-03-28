@@ -1,3 +1,5 @@
+from models.campaign import Campaign as CampaignModel
+from schemas.campaign import CampaignCreate, CampaignResponse
 from fastapi import FastAPI, Depends, HTTPException, status
 from sqlalchemy.orm import Session
 from typing import List
