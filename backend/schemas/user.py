@@ -1,4 +1,4 @@
-from pydantic import BaseModel, validator
+from pydantic import BaseModel
 from typing import Optional
 
 class UserCreate(BaseModel):
@@ -9,12 +9,6 @@ class UserCreate(BaseModel):
     last_name: Optional[str] = None
     channel_url: Optional[str] = None
 
-    @validator('password')
-    def validate_password_length(cls, v):
-        if len(v) > 72:
-            raise ValueError('Password must be no longer than 72 characters')
-        return v
-
 class UserResponse(BaseModel):
     id: int
     email: str
@@ -24,4 +18,4 @@ class UserResponse(BaseModel):
     channel_url: Optional[str]
 
     class Config:
-        from_attributes = True  # Обновляем для Pydantic v2
+        from_attributes = True
