@@ -10,3 +10,4 @@ class Tariff(Base):
     price = Column(Integer)  # в рублях
     services = Column(JSON)  # ["cover_design", "obs_setup"]
     created_at = Column(DateTime, default=datetime.utcnow)
+    campaigns = relationship("Campaign", back_populates="tariff")
