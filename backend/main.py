@@ -42,6 +42,17 @@ def register_user(user_data: UserCreate, db: Session = Depends(get_db)):
 
     return db_user
 
+from utils.auth import create_access_token, verify_password
+
+@app.post("/login")
+def login_user(email: str, password: str, db: Session = Depends(get_db)):
+    user = db.query(UserModel).filter(UserModel.email == email).first()
+    if not user or not verify_password(password, user.password_hash):
+        raise HTTPException(status_code=400, detail="Invalid credentials")
+    
+    token = create_access_token(data={"sub": user.email})
+    return {"access_token": token, "token_type": "bearer"}
+
 @app.get("/")
 def read_root():
     return {"message": "Welcome to Muffins Platform!"}
