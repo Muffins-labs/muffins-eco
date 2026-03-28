@@ -1,11 +1,16 @@
-from fastapi import FastAPI, Depends, HTTPException
+from fastapi import FastAPI, Depends, HTTPException, status
 from sqlalchemy.orm import Session
+from typing import List
+
 from database import engine, SessionLocal, Base
 from models.user import User as UserModel
+from models.tariff import Tariff as TariffModel
 from schemas.user import UserCreate, UserResponse
-from utils.security import hash_password
+from schemas.tariff import TariffCreate, TariffResponse
+from utils.security import hash_password, verify_password
+from utils.auth import create_access_token
 
-# Создаём таблицы
+# Создаём все таблицы
 Base.metadata.create_all(bind=engine)
 
 app = FastAPI()
@@ -42,8 +47,6 @@ def register_user(user_data: UserCreate, db: Session = Depends(get_db)):
 
     return db_user
 
-from utils.auth import create_access_token, verify_password
-
 @app.post("/login")
 def login_user(email: str, password: str, db: Session = Depends(get_db)):
     user = db.query(UserModel).filter(UserModel.email == email).first()
@@ -52,6 +55,23 @@ def login_user(email: str, password: str, db: Session = Depends(get_db)):
     
     token = create_access_token(data={"sub": user.email})
     return {"access_token": token, "token_type": "bearer"}
+
+@app.post("/tariffs", response_model=TariffResponse)
+def create_tariff(tariff_data: TariffCreate, db: Session = Depends(get_db)):
+    db_tariff = TariffModel(
+        name=tariff_data.name,
+        price=tariff_data.price,
+        services=tariff_data.services
+    )
+    db.add(db_tariff)
+    db.commit()
+    db.refresh(db_tariff)
+    return db_tariff
+
+@app.get("/tariffs", response_model=List[TariffResponse])
+def get_tariffs(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
+    tariffs = db.query(TariffModel).offset(skip).limit(limit).all()
+    return tariffs
 
 @app.get("/")
 def read_root():
