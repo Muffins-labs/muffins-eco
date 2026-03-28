@@ -13,4 +13,5 @@ class User(Base):
     last_name = Column(String)
     channel_url = Column(String)
     avatar_url = Column(String)
+    campaigns = relationship("Campaign", back_populates="user")
     created_at = Column(DateTime, default=datetime.utcnow)
