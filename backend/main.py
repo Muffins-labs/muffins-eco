@@ -75,6 +75,34 @@ def get_tariffs(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
     tariffs = db.query(TariffModel).offset(skip).limit(limit).all()
     return tariffs
 
+@app.post("/campaigns", response_model=CampaignResponse)
+def create_campaign(campaign_data: CampaignCreate, db: Session = Depends(get_db)):
+    # Проверяем, существует ли пользователь и тариф
+    user = db.query(UserModel).filter(UserModel.id == campaign_data.user_id).first()
+    if not user:
+        raise HTTPException(status_code=404, detail="User not found")
+
+    tariff = db.query(TariffModel).filter(TariffModel.id == campaign_data.tariff_id).first()
+    if not tariff:
+        raise HTTPException(status_code=404, detail="Tariff not found")
+
+    db_campaign = CampaignModel(
+        title=campaign_data.title,
+        description=campaign_data.description,
+        budget=campaign_data.budget,
+        tariff_id=campaign_data.tariff_id,
+        user_id=campaign_data.user_id
+    )
+    db.add(db_campaign)
+    db.commit()
+    db.refresh(db_campaign)
+    return db_campaign
+
+@app.get("/campaigns", response_model=List[CampaignResponse])
+def get_campaigns(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
+    campaigns = db.query(CampaignModel).offset(skip).limit(limit).all()
+    return campaigns
+
 @app.get("/")
 def read_root():
     return {"message": "Welcome to Muffins Platform!"}
