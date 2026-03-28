@@ -1,13 +1,16 @@
 from fastapi import FastAPI
-from sqlalchemy import create_engine
-from sqlalchemy.orm import sessionmaker
+from database import engine
+from models.user import User
 
-DATABASE_URL = "sqlite:///./muffins.db"
-engine = create_engine(DATABASE_URL)
-SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
+# Создаём таблицы
+User.metadata.create_all(bind=engine)
 
 app = FastAPI()
 
 @app.get("/")
 def read_root():
     return {"message": "Welcome to Muffins Platform!"}
+
+if __name__ == "__main__":
+    import uvicorn
+    uvicorn.run(app, host="127.0.0.1", port=8000)
