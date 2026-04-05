@@ -1,19 +1,16 @@
-from models.campaign import Campaign as CampaignModel
-from schemas.campaign import CampaignCreate, CampaignResponse
-from fastapi import FastAPI, Depends, HTTPException, status
+from fastapi import FastAPI, Depends, HTTPException, status, Security
 from sqlalchemy.orm import Session
 from typing import List
 
 from database import engine, SessionLocal, Base
 from models.user import User as UserModel
 from models.tariff import Tariff as TariffModel
+from models.campaign import Campaign as CampaignModel
 from schemas.user import UserCreate, UserResponse
 from schemas.tariff import TariffCreate, TariffResponse
+from schemas.campaign import CampaignCreate, CampaignResponse
 from utils.security import hash_password, verify_password
-from utils.auth import create_access_token
-from utils.auth import get_current_user
-from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
-from fastapi import Security
+from utils.auth import create_access_token, get_current_user
 
 # Создаём все таблицы
 Base.metadata.create_all(bind=engine)
@@ -61,6 +58,13 @@ def login_user(email: str, password: str, db: Session = Depends(get_db)):
     token = create_access_token(data={"sub": user.email})
     return {"access_token": token, "token_type": "bearer"}
 
+@app.get("/me", response_model=UserResponse)
+def get_current_user_profile(current_email: str = Security(get_current_user), db: Session = Depends(get_db)):
+    user = db.query(UserModel).filter(UserModel.email == current_email).first()
+    if not user:
+        raise HTTPException(status_code=404, detail="User not found")
+    return user
+
 @app.post("/tariffs", response_model=TariffResponse)
 def create_tariff(tariff_data: TariffCreate, db: Session = Depends(get_db)):
     db_tariff = TariffModel(
@@ -90,7 +94,7 @@ def create_campaign(campaign_data: CampaignCreate, db: Session = Depends(get_db)
         raise HTTPException(status_code=404, detail="Tariff not found")
 
     db_campaign = CampaignModel(
-        title=campaign_data.title,
+_data.title,
         description=campaign_data.description,
         budget=campaign_data.budget,
         tariff_id=campaign_data.tariff_id,
@@ -101,10 +105,37 @@ def create_campaign(campaign_data: CampaignCreate, db: Session = Depends(get_db)
     db.refresh(db_campaign)
     return db_campaign
 
-@app.get("/campaigns", response_model=List[CampaignResponse])
-def get_campaigns(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
-    campaigns = db.query(CampaignModel).offset(skip).limit(limit).all()
+@app.get("/users/{user_id}/campaigns", response_model=List[CampaignResponse])
+def get_user_campaigns(user_id: int, skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
+    campaigns = db.query(CampaignModel).filter(CampaignModel.user_id == user_id).offset(skip).limit(limit).all()
     return campaigns
+
+@app.put("/campaigns/{campaign_id}", response_model=CampaignResponse)
+def update_campaign(campaign_id: int, title: str = None, description: str = None, budget: int = None, db: Session = Depends(get_db)):
+    db_campaign = db.query(CampaignModel).filter(CampaignModel.id == campaign_id).first()
+    if not db_campaign:
+        raise HTTPException(status_code=404, detail="Campaign not found")
+
+    if title:
+        db_campaign.title = title
+    if description:
+        db_campaign.description = description
+    if budget:
+        db_campaign.budget = budget
+
+    db.commit()
+    db.refresh(db_campaign)
+    return db_campaign
+
+@app.delete("/campaigns/{campaign_id}")
+def delete_campaign(campaign_id: int, db: Session = Depends(get_db)):
+    db_campaign = db.query(CampaignModel).filter(CampaignModel.id == campaign_id).first()
+    if not db_campaign:
+        raise HTTPException(status_code=404, detail="Campaign not found")
+
+    db.delete(db_campaign)
+    db.commit()
+    return {"detail": "Campaign deleted successfully"}
 
 @app.get("/")
 def read_root():
