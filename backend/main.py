@@ -11,6 +11,9 @@ from schemas.user import UserCreate, UserResponse
 from schemas.tariff import TariffCreate, TariffResponse
 from utils.security import hash_password, verify_password
 from utils.auth import create_access_token
+from utils.auth import get_current_user
+from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
+from fastapi import Security
 
 # Создаём все таблицы
 Base.metadata.create_all(bind=engine)
