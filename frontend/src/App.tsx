@@ -5,6 +5,7 @@ import RegisterForm from './components/RegisterForm';
 import LoginForm from './components/LoginForm';
 import Dashboard from './components/Dashboard';
 import CreateCampaignForm from './components/CreateCampaignForm'; // Импортируем новый компонент
+import HomePage from './pages/HomePage';
 
 function App() {
     const handleLogout = () => {
@@ -42,6 +43,7 @@ function App() {
                     <Route path="/login" element={<LoginForm />} />
                     <Route path="/dashboard" element={<Dashboard />} />
                     <Route path="/create-campaign" element={<CreateCampaignForm />} /> {/* Новый маршрут */}
+                    <Route path="/" element={<HomePage />} />
                 </Routes>
             </Container>
         </Router>
