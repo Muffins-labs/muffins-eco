@@ -4,8 +4,8 @@ import { Container, Typography, Box, AppBar, Toolbar, Button } from '@mui/materi
 import RegisterForm from './components/RegisterForm';
 import LoginForm from './components/LoginForm';
 import Dashboard from './components/Dashboard';
-import CreateCampaignForm from './components/CreateCampaignForm'; // Импортируем новый компонент
-import HomePage from './pages/HomePage';
+import CreateCampaignForm from './components/CreateCampaignForm';
+import HomePage from './pages/HomePage'; // Импортируем новую главную страницу
 
 function App() {
     const handleLogout = () => {
@@ -27,25 +27,13 @@ function App() {
                 </Toolbar>
             </AppBar>
 
-            <Container maxWidth="lg">
-                <Box sx={{ textAlign: 'center', my: 8 }}>
-                    <Typography variant="h2" component="h1" gutterBottom>
-                        Welcome to Muffins Platform!
-                    </Typography>
-                    <Typography variant="h5" color="textSecondary">
-                        Promote your streams and grow your audience
-                    </Typography>
-                </Box>
-
-                <Routes>
-                    <Route path="/" element={<div></div>} /> {/* Пустая домашняя страница */}
-                    <Route path="/register" element={<RegisterForm />} />
-                    <Route path="/login" element={<LoginForm />} />
-                    <Route path="/dashboard" element={<Dashboard />} />
-                    <Route path="/create-campaign" element={<CreateCampaignForm />} /> {/* Новый маршрут */}
-                    <Route path="/" element={<HomePage />} />
-                </Routes>
-            </Container>
+            <Routes>
+                <Route path="/" element={<HomePage />} /> {/* ← Главная страница */}
+                <Route path="/register" element={<RegisterForm />} />
+                <Route path="/login" element={<LoginForm />} />
+                <Route path="/dashboard" element={<Dashboard />} />
+                <Route path="/create-campaign" element={<CreateCampaignForm />} />
+            </Routes>
         </Router>
     );
 }

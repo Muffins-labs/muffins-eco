@@ -38,19 +38,19 @@ const HomePage: React.FC = () => {
     // Примеры тарифов
     const tariffs = [
         {
-            name: 'Design Start',
+            name: 'Silver Package',
             price: '3 990 ₽',
             services: ['Обложки', 'Иконки', 'Шапка'],
             popular: false,
         },
         {
-            name: 'PRO Setup',
+            name: 'Gold Package',
             price: '7 490 ₽',
             services: ['OBS-шаблоны', 'Discord-сервер', 'Контент-план'],
             popular: true,
         },
         {
-            name: 'Full Service',
+            name: 'Platinum Package',
             price: '15 890 ₽',
             services: ['Всё включено', 'Поддержка 1 месяц', 'Стратегия'],
             popular: false,
