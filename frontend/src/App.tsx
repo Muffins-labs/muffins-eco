@@ -4,11 +4,12 @@ import { Container, Typography, Box, AppBar, Toolbar, Button } from '@mui/materi
 import RegisterForm from './components/RegisterForm';
 import LoginForm from './components/LoginForm';
 import Dashboard from './components/Dashboard';
+import CreateCampaignForm from './components/CreateCampaignForm'; // Импортируем новый компонент
 
 function App() {
     const handleLogout = () => {
         localStorage.removeItem('access_token');
-        window.location.href = '/';
+        window.location.href = '/'; // Перенаправляем на главную
     };
 
     return (
@@ -36,10 +37,11 @@ function App() {
                 </Box>
 
                 <Routes>
-                    <Route path="/" element={<div></div>} /> {/* Empty home page */}
+                    <Route path="/" element={<div></div>} /> {/* Пустая домашняя страница */}
                     <Route path="/register" element={<RegisterForm />} />
                     <Route path="/login" element={<LoginForm />} />
                     <Route path="/dashboard" element={<Dashboard />} />
+                    <Route path="/create-campaign" element={<CreateCampaignForm />} /> {/* Новый маршрут */}
                 </Routes>
             </Container>
         </Router>
