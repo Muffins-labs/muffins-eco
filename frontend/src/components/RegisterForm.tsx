@@ -96,8 +96,9 @@ const RegisterForm: React.FC = () => {
                     Sign Up
                 </Typography>
                 <form onSubmit={handleSubmit}>
+                    {/* Обновлённые пропсы для Grid */}
                     <Grid container spacing={2}>
-                        <Grid item xs={12}>
+                        <Grid size={12}> {/* вместо item xs={12} */}
                             <TextField
                                 name="email"
                                 required
@@ -108,7 +109,7 @@ const RegisterForm: React.FC = () => {
                                 onChange={handleChange}
                             />
                         </Grid>
-                        <Grid item xs={12}>
+                        <Grid size={12}> {/* вместо item xs={12} */}
                             <TextField
                                 name="password"
                                 required
@@ -119,7 +120,7 @@ const RegisterForm: React.FC = () => {
                                 onChange={handleChange}
                             />
                         </Grid>
-                        <Grid item xs={12} sm={6}>
+                        <Grid size={{ xs: 12, sm: 6 }}> {/* вместо item xs={12} sm={6} */}
                             <TextField
                                 name="firstName"
                                 required
@@ -129,7 +130,7 @@ const RegisterForm: React.FC = () => {
                                 onChange={handleChange}
                             />
                         </Grid>
-                        <Grid item xs={12} sm={6}>
+                        <Grid size={{ xs: 12, sm: 6 }}> {/* вместо item xs={12} sm={6} */}
                             <TextField
                                 name="lastName"
                                 fullWidth
@@ -138,7 +139,7 @@ const RegisterForm: React.FC = () => {
                                 onChange={handleChange}
                             />
                         </Grid>
-                        <Grid item xs={12}>
+                        <Grid size={12}> {/* вместо item xs={12} */}
                             <TextField
                                 name="channelUrl"
                                 fullWidth
@@ -148,7 +149,7 @@ const RegisterForm: React.FC = () => {
                                 onChange={handleChange}
                             />
                         </Grid>
-                        <Grid item xs={12}>
+                        <Grid size={12}> {/* вместо item xs={12} */}
                             <FormControl fullWidth required>
                                 <InputLabel>Role</InputLabel>
                                 <Select
