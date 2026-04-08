@@ -9,7 +9,9 @@ import {
     ListItemText,
     Divider,
     CircularProgress,
+    Button, // Импортируем Button
 } from '@mui/material';
+import { Link } from 'react-router-dom'; // Импортируем Link для навигации
 
 interface User {
     id: number;
@@ -87,6 +89,13 @@ const Dashboard: React.FC = () => {
                         <ListItemText primary="Channel URL" secondary={user.channel_url || 'Not set'} />
                     </ListItem>
                 </List>
+                
+                {/* Кнопка создания кампании */}
+                <Box sx={{ mt: 2 }}>
+                    <Button variant="contained" color="primary" component={Link} to="/create-campaign">
+                        Create Campaign
+                    </Button>
+                </Box>
             </Paper>
         </Container>
     );
