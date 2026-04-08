@@ -9,9 +9,9 @@ import {
     ListItemText,
     Divider,
     CircularProgress,
-    Button, // Импортируем Button
+    Button,
 } from '@mui/material';
-import { Link } from 'react-router-dom'; // Импортируем Link для навигации
+import { Link } from 'react-router-dom';
 
 interface User {
     id: number;
@@ -27,35 +27,25 @@ const Dashboard: React.FC = () => {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        const fetchUserProfile = async () => {
-            const token = localStorage.getItem('access_token');
-            if (!token) {
-                alert('Please log in first');
-                return;
-            }
+        // Проверяем, есть ли токен (заглушка)
+        const token = localStorage.getItem('access_token');
+        if (!token) {
+            alert('Please log in first');
+            window.location.href = '/login';
+            return;
+        }
 
-            try {
-                const response = await fetch('http://127.0.0.1:8000/me', {
-                    headers: {
-                        'Authorization': `Bearer ${token}`,
-                    },
-                });
-
-                if (response.ok) {
-                    const userData = await response.json();
-                    setUser(userData);
-                } else {
-                    alert('Failed to fetch profile');
-                }
-            } catch (error) {
-                console.error('Error fetching profile:', error);
-                alert('Network error');
-            } finally {
-                setLoading(false);
-            }
-        };
-
-        fetchUserProfile();
+        // ВРЕМЕННАЯ ЗАГЛУШКА: используем email из localStorage
+        const email = localStorage.getItem('current_user_email') || 'guest@example.com';
+        setUser({
+            id: 1,
+            email: email,
+            role: 'streamer',
+            first_name: 'Guest',
+            last_name: null,
+            channel_url: 'https://twitch.tv/guest',
+        });
+        setLoading(false);
     }, []);
 
     if (loading) {

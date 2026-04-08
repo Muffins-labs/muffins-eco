@@ -10,46 +10,22 @@ import {
 
 const LoginForm: React.FC = () => {
     const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
 
-    const handleSubmit = async (e: React.FormEvent) => {
+    const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
 
-        // Формируем тело запроса как строку
-        const body = new URLSearchParams({
-            email: email,
-            password: password,
-        }).toString();
-
-        try {
-            const response = await fetch('http://127.0.0.1:8000/login', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded',
-                },
-                body: body,
-            });
-
-            if (response.ok) {
-                const data = await response.json();
-                localStorage.setItem('access_token', data.access_token);
-                alert('Login successful!');
-                window.location.href = '/dashboard'; // Перенаправляем на кабинет
-            } else {
-                const errorData = await response.json();
-                alert(`Error: ${errorData.detail || 'Unknown error'}`);
-            }
-        } catch (error) {
-            console.error('Error during login:', error);
-            alert('Network error. Please try again later.');
-        }
+        // ВРЕМЕННАЯ ЗАГЛУШКА: сохраняем email в localStorage и перенаправляем
+        localStorage.setItem('current_user_email', email);
+        localStorage.setItem('access_token', 'fake-token-for-now'); // Заглушка
+        alert('Login successful (stub)! Redirecting...');
+        window.location.href = '/dashboard';
     };
 
     return (
         <Container component="main" maxWidth="xs">
             <Paper elevation={3} style={{ padding: 20, marginTop: 20 }}>
                 <Typography component="h1" variant="h5">
-                    Sign In
+                    Sign In (Stub)
                 </Typography>
                 <form onSubmit={handleSubmit}>
                     <TextField
@@ -61,16 +37,6 @@ const LoginForm: React.FC = () => {
                         autoFocus
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
-                    />
-                    <TextField
-                        variant="outlined"
-                        margin="normal"
-                        required
-                        fullWidth
-                        label="Password"
-                        type="password"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
                     />
                     <Button
                         type="submit"
