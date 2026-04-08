@@ -15,10 +15,11 @@ const LoginForm: React.FC = () => {
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
 
-        const loginData = {
+        // Формируем тело запроса как строку
+        const body = new URLSearchParams({
             email: email,
             password: password,
-        };
+        }).toString();
 
         try {
             const response = await fetch('http://127.0.0.1:8000/login', {
@@ -26,13 +27,14 @@ const LoginForm: React.FC = () => {
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded',
                 },
-                body: new URLSearchParams(loginData),
+                body: body,
             });
 
             if (response.ok) {
                 const data = await response.json();
                 localStorage.setItem('access_token', data.access_token);
                 alert('Login successful!');
+                window.location.href = '/dashboard'; // Перенаправляем на кабинет
             } else {
                 const errorData = await response.json();
                 alert(`Error: ${errorData.detail || 'Unknown error'}`);
