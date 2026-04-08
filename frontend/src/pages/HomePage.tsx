@@ -9,8 +9,16 @@ import {
     useScrollTrigger,
     Slide,
     Fade,
+    Card,
+    CardContent,
+    CardMedia,
+    Rating,
+    Fab,
+    useTheme,
+    useMediaQuery,
 } from '@mui/material';
 import { Link } from 'react-router-dom';
+import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 
 // Компонент для анимации при скролле
 function ScrollHandler(props: { children: React.ReactElement }) {
@@ -24,8 +32,47 @@ function ScrollHandler(props: { children: React.ReactElement }) {
 }
 
 const HomePage: React.FC = () => {
+    const theme = useTheme();
+    const isMobile = useMediaQuery(theme.breakpoints.down('md'));
+
+    // Примеры тарифов
+    const tariffs = [
+        {
+            name: 'Design Start',
+            price: '3 990 ₽',
+            services: ['Обложки', 'Иконки', 'Шапка'],
+            popular: false,
+        },
+        {
+            name: 'PRO Setup',
+            price: '7 490 ₽',
+            services: ['OBS-шаблоны', 'Discord-сервер', 'Контент-план'],
+            popular: true,
+        },
+        {
+            name: 'Full Service',
+            price: '15 890 ₽',
+            services: ['Всё включено', 'Поддержка 1 месяц', 'Стратегия'],
+            popular: false,
+        },
+    ];
+
+    // Примеры работ
+    const examples = [
+        { title: 'Twitch Cover', image: 'https://source.unsplash.com/400x200/?twitch,cover' },
+        { title: 'Discord Server', image: 'https://source.unsplash.com/400x200/?discord,setup' },
+        { title: 'OBS Layout', image: 'https://source.unsplash.com/400x200/?obs,layout' },
+    ];
+
+    // Отзывы
+    const reviews = [
+        { name: 'Arffei', rating: 5, text: 'Прокачали мой канал с 0 до 1000 зрителей!' },
+        { name: 'StreamMaster', rating: 5, text: 'Очень довольна дизайном и настройкой.' },
+        { name: 'GamerGirl', rating: 4, text: 'Быстро, качественно, рекомендую!' },
+    ];
+
     return (
-        <Box sx={{ minHeight: '100vh', overflowX: 'hidden' }}>
+        <Box sx={{ minHeight: '100vh', overflowX: 'hidden', background: 'linear-gradient(135deg, #1e3c72 0%, #2a5298 100%)' }}>
             {/* Параллакс-баннер */}
             <Box
                 sx={{
@@ -44,16 +91,19 @@ const HomePage: React.FC = () => {
                         left: 0,
                         right: 0,
                         bottom: 0,
-                        backgroundColor: 'rgba(0, 0, 0, 0.6)', // затемнение
+                        backgroundColor: 'rgba(0, 0, 0, 0.6)',
                     },
                 }}
             >
                 <Fade in timeout={1500}>
                     <Box sx={{ zIndex: 1, textAlign: 'center', color: 'white' }}>
-                        <Typography variant="h2" component="h1" gutterBottom>
+                        <Typography variant="h1" component="h1" gutterBottom sx={{ fontWeight: 'bold', textShadow: '2px 2px 4px rgba(0,0,0,0.5)' }}>
+                            Muffins
+                        </Typography>
+                        <Typography variant="h4" gutterBottom sx={{ textShadow: '1px 1px 2px rgba(0,0,0,0.5)' }}>
                             Grow Your Stream
                         </Typography>
-                        <Typography variant="h5" gutterBottom>
+                        <Typography variant="h6" gutterBottom sx={{ textShadow: '1px 1px 2px rgba(0,0,0,0.5)' }}>
                             Full-service promotion for streamers & YouTubers
                         </Typography>
                         <Button
@@ -61,7 +111,7 @@ const HomePage: React.FC = () => {
                             size="large"
                             color="secondary"
                             component={Link} to="/register"
-                            sx={{ mt: 2, mr: 2 }}
+                            sx={{ mt: 2, mr: 2, px: 4, py: 1.5, fontSize: '1.2rem' }}
                         >
                             Get Started
                         </Button>
@@ -70,7 +120,7 @@ const HomePage: React.FC = () => {
                             size="large"
                             color="inherit"
                             component={Link} to="/login"
-                            sx={{ mt: 2 }}
+                            sx={{ mt: 2, px: 4, py: 1.5, fontSize: '1.2rem' }}
                         >
                             Log In
                         </Button>
@@ -78,80 +128,159 @@ const HomePage: React.FC = () => {
                 </Fade>
             </Box>
 
-            {/* Блок с услугами */}
-            <Container maxWidth="lg" sx={{ py: 8 }}>
-                <Typography variant="h3" align="center" gutterBottom>
-                    Our Services
+            {/* Блок с тарифами */}
+            <Container maxWidth="lg" sx={{ py: 8, background: 'linear-gradient(to bottom, #ffffff, #f0f4f8)' }}>
+                <Typography variant="h3" align="center" gutterBottom color="primary" sx={{ fontWeight: 'bold' }}>
+                    Our Packages
                 </Typography>
-                <Grid container spacing={4} sx={{ mt: 2 }}>
-                    {[
-                        { title: 'Design Start', desc: 'Cover, icons, banner' },
-                        { title: 'OBS Setup', desc: 'Templates, settings, tools' },
-                        { title: 'Discord Server', desc: 'Setup & moderation' },
-                        { title: 'Full Service', desc: 'Complete promotion' },
-                    ].map((service, idx) => (
-                        <Grid size={{ xs: 12, md: 3 }} key={idx}>
+                <Grid container spacing={isMobile ? 2 : 4} sx={{ mt: 2 }}>
+                    {tariffs.map((tariff, idx) => (
+                        <Grid size={{ xs: 12, md: 4 }} key={idx}>
                             <ScrollHandler>
-                                <Paper
-                                    elevation={8}
+                                <Card
                                     sx={{
-                                        p: 3,
-                                        textAlign: 'center',
                                         height: '100%',
-                                        transition: 'transform 0.3s',
-                                        '&:hover': {
-                                            transform: 'translateY(-8px)',
-                                        },
+                                        display: 'flex',
+                                        flexDirection: 'column',
+                                        position: 'relative',
+                                        ...(tariff.popular && {
+                                            border: '3px solid #ff6b6b',
+                                            transform: 'scale(1.05)',
+                                            zIndex: 1,
+                                        }),
                                     }}
                                 >
-                                    <Typography variant="h6" gutterBottom>
-                                        {service.title}
-                                    </Typography>
-                                    <Typography color="textSecondary">
-                                        {service.desc}
-                                    </Typography>
-                                </Paper>
+                                    {tariff.popular && (
+                                        <Box
+                                            sx={{
+                                                position: 'absolute',
+                                                top: -10,
+                                                left: '50%',
+                                                transform: 'translateX(-50%)',
+                                                background: '#ff6b6b',
+                                                color: 'white',
+                                                px: 2,
+                                                py: 0.5,
+                                                borderRadius: '20px',
+                                                fontSize: '0.8rem',
+                                                fontWeight: 'bold',
+                                            }}
+                                        >
+                                            POPULAR
+                                        </Box>
+                                    )}
+                                    <CardContent sx={{ flexGrow: 1 }}>
+                                        <Typography variant="h5" component="h3" gutterBottom align="center">
+                                            {tariff.name}
+                                        </Typography>
+                                        <Typography variant="h4" color="primary" align="center" gutterBottom>
+                                            {tariff.price}
+                                        </Typography>
+                                        <ul>
+                                            {tariff.services.map((service, i) => (
+                                                <li key={i}>{service}</li>
+                                            ))}
+                                        </ul>
+                                    </CardContent>
+                                    <Box sx={{ p: 2 }}>
+                                        <Button
+                                            variant={tariff.popular ? 'contained' : 'outlined'}
+                                            color="primary"
+                                            fullWidth
+                                            component={Link} to="/register"
+                                        >
+                                            Choose Plan
+                                        </Button>
+                                    </Box>
+                                </Card>
                             </ScrollHandler>
                         </Grid>
                     ))}
                 </Grid>
             </Container>
 
-            {/* Блок с преимуществами */}
-            <Box
-                sx={{
-                    py: 8,
-                    bgcolor: 'background.paper',
-                    color: 'text.primary',
-                }}
-            >
-                <Container maxWidth="lg">
-                    <Grid container spacing={4} alignItems="center">
-                        <Grid size={{ xs: 12, md: 6 }}>
-                            <Typography variant="h4" gutterBottom>
-                                Why Choose Us?
-                            </Typography>
-                            <Typography paragraph>
-                                We offer full-service promotion tailored to your needs. From design to tech setup, we handle everything.
-                            </Typography>
-                            <Button
-                                variant="contained"
-                                color="primary"
-                                component={Link} to="/register"
-                            >
-                                Join Now
-                            </Button>
+            {/* Примеры работ */}
+            <Container maxWidth="lg" sx={{ py: 8 }}>
+                <Typography variant="h3" align="center" gutterBottom color="secondary" sx={{ fontWeight: 'bold' }}>
+                    Examples
+                </Typography>
+                <Grid container spacing={isMobile ? 2 : 4} sx={{ mt: 2 }}>
+                    {examples.map((example, idx) => (
+                        <Grid size={{ xs: 12, md: 4 }} key={idx}>
+                            <Card>
+                                <CardMedia
+                                    component="img"
+                                    height="140"
+                                    image={example.image}
+                                    alt={example.title}
+                                />
+                                <CardContent>
+                                    <Typography gutterBottom variant="h6" component="h4">
+                                        {example.title}
+                                    </Typography>
+                                </CardContent>
+                            </Card>
                         </Grid>
-                        <Grid size={{ xs: 12, md: 6 }}>
-                            <img
-                                src="https://source.unsplash.com/800x600/?streaming,setups"
-                                alt="Streaming setup"
-                                style={{ width: '100%', borderRadius: 8 }}
-                            />
+                    ))}
+                </Grid>
+            </Container>
+
+            {/* Отзывы */}
+            <Container maxWidth="md" sx={{ py: 8, background: 'linear-gradient(to bottom, #f0f4f8, #ffffff)' }}>
+                <Typography variant="h3" align="center" gutterBottom color="primary" sx={{ fontWeight: 'bold' }}>
+                    What Our Clients Say
+                </Typography>
+                <Grid container spacing={isMobile ? 2 : 4} sx={{ mt: 2 }}>
+                    {reviews.map((review, idx) => (
+                        <Grid size={{ xs: 12, md: 4 }} key={idx}>
+                            <Paper elevation={4} sx={{ p: 3, textAlign: 'center', height: '100%' }}>
+                                <Rating value={review.rating} readOnly />
+                                <Typography variant="h6">{review.name}</Typography>
+                                <Typography color="textSecondary">{review.text}</Typography>
+                            </Paper>
+                        </Grid>
+                    ))}
+                </Grid>
+            </Container>
+
+            {/* Футер */}
+            <Box sx={{ bgcolor: 'common.black', color: 'white', py: 6 }}>
+                <Container maxWidth="lg">
+                    <Grid container spacing={isMobile ? 2 : 4}>
+                        <Grid size={{ xs: 12, md: 4 }}>
+                            <Typography variant="h6" gutterBottom>Muffins</Typography>
+                            <Typography color="textSecondary">Grow your stream with us.</Typography>
+                        </Grid>
+                        <Grid size={{ xs: 12, md: 4 }}>
+                            <Typography variant="h6" gutterBottom>Links</Typography>
+                            <Button color="inherit" component={Link} to="/register" sx={{ display: 'block' }}>Register</Button>
+                            <Button color="inherit" component={Link} to="/login" sx={{ display: 'block' }}>Log In</Button>
+                        </Grid>
+                        <Grid size={{ xs: 12, md: 4 }}>
+                            <Typography variant="h6" gutterBottom>Follow Us</Typography>
+                            <Typography color="textSecondary">Telegram • Discord • YouTube</Typography>
                         </Grid>
                     </Grid>
+                    <Typography align="center" color="textSecondary" sx={{ mt: 4 }}>
+                        © {new Date().getFullYear()} Muffins. All rights reserved.
+                    </Typography>
                 </Container>
             </Box>
+
+            {/* Кнопка "наверх" */}
+            <Fab
+                color="primary"
+                size="small"
+                onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+                sx={{
+                    position: 'fixed',
+                    bottom: 16,
+                    right: 16,
+                    boxShadow: 4,
+                }}
+            >
+                <KeyboardArrowUpIcon />
+            </Fab>
         </Box>
     );
 };
