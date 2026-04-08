@@ -1,5 +1,6 @@
 import React from 'react';
 import { Container, Typography, Box } from '@mui/material';
+import RegisterForm from './components/RegisterForm';
 
 function App() {
     return (
@@ -12,6 +13,7 @@ function App() {
                     Promote your streams and grow your audience
                 </Typography>
             </Box>
+            <RegisterForm />
         </Container>
     );
 }
