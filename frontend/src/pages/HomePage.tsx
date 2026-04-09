@@ -36,7 +36,7 @@ const HomePage: React.FC = () => {
             name: 'Platinum Package',
             price: '15 890 ₽',
             services: ['Всё включено', 'Поддержка 1 месяц', 'Стратегия'],
-: false,
+            popular: false,
         },
     ];
 
