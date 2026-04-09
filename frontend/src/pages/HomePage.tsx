@@ -73,7 +73,7 @@ const HomePage: React.FC = () => {
 
     return (
         <Box sx={{ minHeight: '100vh', overflowX: 'hidden', background: 'linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%)' }}>
-лакс-баннер */}
+            {/* Параллакс-баннер */}
             <Box
                 sx={{
                     height: '100vh',
