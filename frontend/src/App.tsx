@@ -18,7 +18,6 @@ function App() {
                 <Route path="/register" element={<RegisterForm />} />
                 <Route path="/login" element={<LoginForm />} />
                 <Route path="/dashboard" element={<Dashboard />} />
-                {/* Убрали маршрут /create-campaign */}
             </Routes>
             <Footer />
         </Router>

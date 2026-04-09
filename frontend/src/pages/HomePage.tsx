@@ -4,27 +4,25 @@ import {
     Container,
     Typography,
     Button,
-    // unstable_Grid as Grid, // ← Если используешь v7
-    Grid, // ← Если v6
     Paper,
-    useScrollTrigger,
-    Slide,
-    Fade,
+    Stepper,
     Step,
     StepLabel,
-    Stepper,
-    Tooltip,
-    IconButton,
     FormControl,
     InputLabel,
     Select,
     MenuItem,
     TextField,
+    RadioGroup,
     FormControlLabel,
     Radio,
+    Tooltip,
+    IconButton,
     Card,
     CardContent,
     CircularProgress,
+    unstable_Grid as Grid,
+    Fade,
 } from '@mui/material';
 import { Info, ArrowForwardIos, ArrowBackIos } from '@mui/icons-material';
 import { Link } from 'react-router-dom';
@@ -183,7 +181,7 @@ const HomePage: React.FC = () => {
         );
     }
 
-    // Фон для каждого шага (parallax)
+    // шага (parallax)
     const backgrounds = [
         'https://source.unsplash.com/1600x900/?gaming,livestream', // Цель
         'https://source.unsplash.com/1600x900/?streamer,setup', // Информация
