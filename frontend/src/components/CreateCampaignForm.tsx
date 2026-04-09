@@ -20,7 +20,6 @@ import {
     RadioGroup,
     FormControlLabel,
     Radio,
-    FormHelperText,
     Card,
     CardContent,
 } from '@mui/material';
@@ -339,7 +338,7 @@ const CreateCampaignForm: React.FC = () => {
                             </Box>
                         )}
 
-                        {/* Шаг 4: Тариф и опции */}
+ 4: Тариф и опции */}
                         {activeStep === 3 && (
                             <Box>
                                 <Typography variant="h6" gutterBottom>
