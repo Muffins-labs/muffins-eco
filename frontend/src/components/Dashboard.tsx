@@ -27,14 +27,6 @@ const Dashboard: React.FC = () => {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        // Проверяем, есть ли токен (заглушка)
-        const token = localStorage.getItem('access_token');
-        if (!token) {
-            alert('Please log in first');
-            window.location.href = '/login';
-            return;
-        }
-
         // ВРЕМЕННАЯ ЗАГЛУШКА: используем email из localStorage
         const email = localStorage.getItem('current_user_email') || 'guest@example.com';
         setUser({

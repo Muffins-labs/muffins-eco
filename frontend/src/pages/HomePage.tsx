@@ -35,28 +35,6 @@ const HomePage: React.FC = () => {
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down('md'));
 
-    // Примеры тарифов
-    const tariffs = [
-        {
-            name: 'Silver Package',
-            price: '3 990 ₽',
-            services: ['Обложки', 'Иконки', 'Шапка'],
-            popular: false,
-        },
-        {
-            name: 'Gold Package',
-            price: '7 490 ₽',
-            services: ['OBS-шаблоны', 'Discord-сервер', 'Контент-план'],
-            popular: true,
-        },
-        {
-            name: 'Platinum Package',
-            price: '15 890 ₽',
-            services: ['Всё включено', 'Поддержка 1 месяц', 'Стратегия'],
-            popular: false,
-        },
-    ];
-
     // Примеры работ
     const examples = [
         { title: 'Twitch Cover', image: 'https://source.unsplash.com/400x200/?twitch,cover' },
@@ -127,94 +105,6 @@ const HomePage: React.FC = () => {
                             </Button>
                         </Box>
                     </Fade>
-                </Box>
-
-                {/* Блок с тарифами */}
-                <Box
-                    sx={{
-                        backgroundImage: 'url(https://source.unsplash.com/1600x900/?tech)',
-                        backgroundAttachment: 'fixed',
-                        backgroundSize: 'cover',
-                        backgroundPosition: 'center',
-                        py: 8,
-                    }}
-                >
-                    <Container maxWidth="lg">
-                        <Typography variant="h3" align="center" gutterBottom color="primary" sx={{ fontWeight: 'bold', mb: 6 }}>
-                            Our Packages
-                        </Typography>
-                        <Grid container spacing={isMobile ? 2 : 4}>
-                            {tariffs.map((tariff, idx) => (
-                                <Grid size={{ xs: 12, md: 4 }} key={idx}>
-                                    <ScrollHandler>
-                                        <Card
-                                            sx={{
-                                                height: '100%',
-                                                display: 'flex',
-                                                flexDirection: 'column',
-                                                background: 'white',
-                                                borderRadius: 4,
-                                                boxShadow: 6,
-                                                transition: 'transform 0.3s ease, box-shadow 0.3s ease',
-                                                '&:hover': {
-                                                    transform: 'translateY(-10px)',
-                                                    boxShadow: 12,
-                                                },
-                                                ...(tariff.popular && {
-                                                    border: '3px solid #ff6b6b',
-                                                    transform: 'scale(1.05)',
-                                                    zIndex: 1,
-                                                }),
-                                            }}
-                                        >
-                                            {tariff.popular && (
-                                                <Box
-                                                    sx={{
-                                                        position: 'absolute',
-                                                        top: -10,
-                                                        left: '50%',
-                                                        transform: 'translateX(-50%)',
-                                                        background: '#ff6b6b',
-                                                        color: 'white',
-                                                        px: 2,
-                                                        py: 0.5,
-                                                        borderRadius: '20px',
-                                                        fontSize: '0.8rem',
-                                                        fontWeight: 'bold',
-                                                    }}
-                                                >
-                                                    POPULAR
-                                                </Box>
-                                            )}
-                                            <CardContent sx={{ flexGrow: 1, p: 3 }}>
-                                                <Typography variant="h5" component="h3" gutterBottom align="center">
-                                                    {tariff.name}
-                                                </Typography>
-                                                <Typography variant="h4" color="primary" align="center" gutterBottom>
-                                                    {tariff.price}
-                                                </Typography>
-                                                <ul>
-                                                    {tariff.services.map((service, i) => (
-                                                        <li key={i}>{service}</li>
-                                                    ))}
-                                                </ul>
-                                            </CardContent>
-                                            <Box sx={{ p: 2 }}>
-                                                <Button
-                                                    variant={tariff.popular ? 'contained' : 'outlined'}
-                                                    color="primary"
-                                                    fullWidth
-                                                    component={Link} to="/register"
-                                                >
-                                                    Choose Plan
-                                                </Button>
-                                            </Box>
-                                        </Card>
-                                    </ScrollHandler>
-                                </Grid>
-                            ))}
-                        </Grid>
-                    </Container>
                 </Box>
 
                 {/* Примеры работ */}
