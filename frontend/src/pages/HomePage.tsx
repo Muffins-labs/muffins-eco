@@ -72,8 +72,8 @@ const HomePage: React.FC = () => {
     ];
 
     return (
-        <Box sx={{ minHeight: '100vh', overflowX: 'hidden', background: 'linear-gradient(135deg, #1e3c72 0%, #2a5298 100%)' }}>
-            {/* Параллакс-баннер */}
+        <Box sx={{ minHeight: '100vh', overflowX: 'hidden', background: 'linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%)' }}>
+лакс-баннер */}
             <Box
                 sx={{
                     height: '100vh',
@@ -91,7 +91,7 @@ const HomePage: React.FC = () => {
                         left: 0,
                         right: 0,
                         bottom: 0,
-                        backgroundColor: 'rgba(0, 0, 0, 0.6)',
+                        backgroundColor: 'rgba(0, 0, 0, 0.5)',
                     },
                 }}
             >
@@ -129,11 +129,11 @@ const HomePage: React.FC = () => {
             </Box>
 
             {/* Блок с тарифами */}
-            <Container maxWidth="lg" sx={{ py: 8, background: 'linear-gradient(to bottom, #ffffff, #f0f4f8)' }}>
-                <Typography variant="h3" align="center" gutterBottom color="primary" sx={{ fontWeight: 'bold' }}>
+            <Container maxWidth="lg" sx={{ py: 8 }}>
+                <Typography variant="h3" align="center" gutterBottom color="primary" sx={{ fontWeight: 'bold', mb: 6 }}>
                     Our Packages
                 </Typography>
-                <Grid container spacing={isMobile ? 2 : 4} sx={{ mt: 2 }}>
+                <Grid container spacing={isMobile ? 2 : 4}>
                     {tariffs.map((tariff, idx) => (
                         <Grid size={{ xs: 12, md: 4 }} key={idx}>
                             <ScrollHandler>
@@ -143,6 +143,9 @@ const HomePage: React.FC = () => {
                                         display: 'flex',
                                         flexDirection: 'column',
                                         position: 'relative',
+                                        background: 'white',
+                                        borderRadius: 4,
+                                        boxShadow: 6,
                                         ...(tariff.popular && {
                                             border: '3px solid #ff6b6b',
                                             transform: 'scale(1.05)',
@@ -169,7 +172,7 @@ const HomePage: React.FC = () => {
                                             POPULAR
                                         </Box>
                                     )}
-                                    <CardContent sx={{ flexGrow: 1 }}>
+                                    <CardContent sx={{ flexGrow: 1, p: 3 }}>
                                         <Typography variant="h5" component="h3" gutterBottom align="center">
                                             {tariff.name}
                                         </Typography>
@@ -200,17 +203,17 @@ const HomePage: React.FC = () => {
             </Container>
 
             {/* Примеры работ */}
-            <Container maxWidth="lg" sx={{ py: 8 }}>
-                <Typography variant="h3" align="center" gutterBottom color="secondary" sx={{ fontWeight: 'bold' }}>
+            <Container maxWidth="lg" sx={{ py: 8, background: 'linear-gradient(to bottom, #ffffff, #f0f4f8)' }}>
+                <Typography variant="h3" align="center" gutterBottom color="secondary" sx={{ fontWeight: 'bold', mb: 6 }}>
                     Examples
                 </Typography>
-                <Grid container spacing={isMobile ? 2 : 4} sx={{ mt: 2 }}>
+                <Grid container spacing={isMobile ? 2 : 4}>
                     {examples.map((example, idx) => (
                         <Grid size={{ xs: 12, md: 4 }} key={idx}>
-                            <Card>
+                            <Card sx={{ borderRadius: 4, boxShadow: 4 }}>
                                 <CardMedia
                                     component="img"
-                                    height="140"
+                                    height="200"
                                     image={example.image}
                                     alt={example.title}
                                 />
@@ -226,14 +229,14 @@ const HomePage: React.FC = () => {
             </Container>
 
             {/* Отзывы */}
-            <Container maxWidth="md" sx={{ py: 8, background: 'linear-gradient(to bottom, #f0f4f8, #ffffff)' }}>
-                <Typography variant="h3" align="center" gutterBottom color="primary" sx={{ fontWeight: 'bold' }}>
+            <Container maxWidth="md" sx={{ py: 8 }}>
+                <Typography variant="h3" align="center" gutterBottom color="primary" sx={{ fontWeight: 'bold', mb: 6 }}>
                     What Our Clients Say
                 </Typography>
-                <Grid container spacing={isMobile ? 2 : 4} sx={{ mt: 2 }}>
+                <Grid container spacing={isMobile ? 2 : 4}>
                     {reviews.map((review, idx) => (
                         <Grid size={{ xs: 12, md: 4 }} key={idx}>
-                            <Paper elevation={4} sx={{ p: 3, textAlign: 'center', height: '100%' }}>
+                            <Paper elevation={6} sx={{ p: 3, textAlign: 'center', height: '100%', borderRadius: 4, background: 'white' }}>
                                 <Rating value={review.rating} readOnly />
                                 <Typography variant="h6">{review.name}</Typography>
                                 <Typography color="textSecondary">{review.text}</Typography>
@@ -242,30 +245,6 @@ const HomePage: React.FC = () => {
                     ))}
                 </Grid>
             </Container>
-
-            {/* Футер */}
-            <Box sx={{ bgcolor: 'common.black', color: 'white', py: 6 }}>
-                <Container maxWidth="lg">
-                    <Grid container spacing={isMobile ? 2 : 4}>
-                        <Grid size={{ xs: 12, md: 4 }}>
-                            <Typography variant="h6" gutterBottom>Muffins</Typography>
-                            <Typography color="textSecondary">Grow your stream with us.</Typography>
-                        </Grid>
-                        <Grid size={{ xs: 12, md: 4 }}>
-                            <Typography variant="h6" gutterBottom>Links</Typography>
-                            <Button color="inherit" component={Link} to="/register" sx={{ display: 'block' }}>Register</Button>
-                            <Button color="inherit" component={Link} to="/login" sx={{ display: 'block' }}>Log In</Button>
-                        </Grid>
-                        <Grid size={{ xs: 12, md: 4 }}>
-                            <Typography variant="h6" gutterBottom>Follow Us</Typography>
-                            <Typography color="textSecondary">Telegram • Discord • YouTube</Typography>
-                        </Grid>
-                    </Grid>
-                    <Typography align="center" color="textSecondary" sx={{ mt: 4 }}>
-                        © {new Date().getFullYear()} Muffins. All rights reserved.
-                    </Typography>
-                </Container>
-            </Box>
 
             {/* Кнопка "наверх" */}
             <Fab
