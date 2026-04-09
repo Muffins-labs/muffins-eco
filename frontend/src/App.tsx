@@ -12,7 +12,7 @@ import CreateCampaignForm from './components/CreateCampaignForm';
 function App() {
     return (
         <Router>
-            <CssBaseline /> {/* Сбрасывает стандартные стили браузера */}
+            <CssBaseline />
             <Header />
             <Routes>
                 <Route path="/" element={<HomePage />} />

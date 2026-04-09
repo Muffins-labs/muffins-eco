@@ -21,6 +21,8 @@ import {
     FormControlLabel,
     Radio,
     FormHelperText,
+    Card,
+    CardContent,
 } from '@mui/material';
 import { Info, ArrowForwardIos, ArrowBackIos } from '@mui/icons-material';
 import { Link } from 'react-router-dom';
@@ -34,7 +36,7 @@ interface Tariff {
 
 interface FormData {
     goal: string;
-    content_type: 'stream' | 'video' | ''; // Twitch или YouTube
+    content_type: 'stream' | 'video' | '';
     channel_url: string;
     channel_nickname: string;
     game_genre: string;
@@ -341,22 +343,46 @@ const CreateCampaignForm: React.FC = () => {
                         {activeStep === 3 && (
                             <Box>
                                 <Typography variant="h6" gutterBottom>
-                                    Выберите тариф и опции
+                                    Выберите тариф
                                 </Typography>
-                                <FormControl fullWidth required sx={{ mb: 2 }}>
-                                    <InputLabel>Тариф</InputLabel>
-                                    <Select
-                                        name="tariff_id"
-                                        value={formData.tariff_id}
-                                        onChange={handleTariffChange}
-                                    >
-                                        {tariffs.map((tariff) => (
-                                            <MenuItem key={tariff.id} value={tariff.id}>
-                                                {tariff.name} ({tariff.price} ₽)
-                                            </MenuItem>
-                                        ))}
-                                    </Select>
-                                </FormControl>
+                                <Grid container spacing={2}>
+                                    {tariffs.map((tariff) => (
+                                        <Grid size={{ xs: 12, md: 4 }} key={tariff.id}>
+                                            <Card
+                                                sx={{
+                                                    height: '100%',
+                                                    display: 'flex',
+                                                    flexDirection: 'column',
+                                                    background: tariff.id === formData.tariff_id ? 'linear-gradient(90deg, #6a11cb 0%, #2575fc 100%)' : 'white',
+                                                    color: tariff.id === formData.tariff_id ? 'white' : 'inherit',
+                                                    borderRadius: 4,
+                                                    boxShadow: 6,
+                                                    cursor: 'pointer',
+                                                    transition: 'transform 0.3s ease, box-shadow 0.3s ease',
+                                                    '&:hover': {
+                                                        transform: 'translateY(-5px)',
+                                                        boxShadow: 10,
+                                                    },
+                                                }}
+                                                onClick={() => setFormData({ ...formData, tariff_id: tariff.id })}
+                                            >
+                                                <CardContent sx={{ flexGrow: 1, p: 3 }}>
+                                                    <Typography variant="h6" component="h3" gutterBottom align="center">
+                                                        {tariff.name}
+                                                    </Typography>
+                                                    <Typography variant="h5" align="center" gutterBottom>
+                                                        {tariff.price} ₽
+                                                    </Typography>
+                                                    <ul>
+                                                        {tariff.services.map((service, i) => (
+                                                            <li key={i}>{service}</li>
+                                                        ))}
+                                                    </ul>
+                                                </CardContent>
+                                            </Card>
+                                        </Grid>
+                                    ))}
+                                </Grid>
                                 <TextField
                                     name="budget"
                                     fullWidth
@@ -364,7 +390,7 @@ const CreateCampaignForm: React.FC = () => {
                                     type="number"
                                     value={formData.budget}
                                     onChange={handleChange}
-                                    sx={{ mb: 2 }}
+                                    sx={{ mt: 2 }}
                                 />
                                 <TextField
                                     name="duration"
@@ -373,7 +399,7 @@ const CreateCampaignForm: React.FC = () => {
                                     type="number"
                                     value={formData.duration}
                                     onChange={handleChange}
-                                    sx={{ mb: 2 }}
+                                    sx={{ mt: 2 }}
                                 />
                             </Box>
                         )}
