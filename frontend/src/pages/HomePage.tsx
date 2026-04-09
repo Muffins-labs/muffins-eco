@@ -72,224 +72,242 @@ const HomePage: React.FC = () => {
     ];
 
     return (
-        <Box sx={{ minHeight: '100vh', overflowX: 'hidden', background: 'linear-gradient(135deg, #f0f2f5 0%, #e6e9ef 100%)' }}>
-            {/* Параллакс-баннер */}
-            <Box
-                sx={{
-                    height: '100vh',
-                    backgroundImage: 'url(https://source.unsplash.com/1600x900/?gaming,livestream)',
-                    backgroundSize: 'cover',
-                    backgroundPosition: 'center',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    position: 'relative',
-                    '&::before': {
-                        content: '""',
-                        position: 'absolute',
-                        top: 0,
-                        left: 0,
-                        right: 0,
-                        bottom: 0,
-                        backgroundColor: 'rgba(0, 0, 0, 0.5)',
-                    },
-                }}
-            >
-                <Fade in timeout={1500}>
-                    <Box sx={{ zIndex: 1, textAlign: 'center', color: 'white' }}>
-                        <Typography variant="h1" component="h1" gutterBottom sx={{ fontWeight: 'bold', textShadow: '2px 2px 4px rgba(0,0,0,0.5)' }}>
-                            Muffins
-                        </Typography>
-                        <Typography variant="h4" gutterBottom sx={{ textShadow: '1px 1px 2px rgba(0,0,0,0.5)' }}>
-                            Grow Your Stream
-                        </Typography>
-                        <Typography variant="h6" gutterBottom sx={{ textShadow: '1px 1px 2px rgba(0,0,0,0.5)' }}>
-                            Full-service promotion for streamers & YouTubers
-                        </Typography>
-                        <Button
-                            variant="contained"
-                            size="large"
-                            color="secondary"
-                            component={Link} to="/register"
-                            sx={{ mt: 2, mr: 2, px: 4, py: 1.5, fontSize: '1.2rem' }}
-                        >
-                            Get Started
-                        </Button>
-                        <Button
-                            variant="outlined"
-                            size="large"
-                            color="inherit"
-                            component={Link} to="/login"
-                            sx={{ mt: 2, px: 4, py: 1.5, fontSize: '1.2rem' }}
-                        >
-                            Log In
-                        </Button>
-                    </Box>
-                </Fade>
-            </Box>
+        <Fade in timeout={1000}>
+            <Box sx={{ minHeight: '100vh', overflowX: 'hidden', background: 'linear-gradient(135deg, #f0f2f5 0%, #e6e9ef 100%)' }}>
+                {/* Параллакс-баннер */}
+                <Box
+                    sx={{
+                        height: '100vh',
+                        backgroundImage: 'url(https://source.unsplash.com/1600x900/?gaming,livestream)',
+                        backgroundSize: 'cover',
+                        backgroundPosition: 'center',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        position: 'relative',
+                        '&::before': {
+                            content: '""',
+                            position: 'absolute',
+                            top: 0,
+                            left: 0,
+                            right: 0,
+                            bottom: 0,
+                            backgroundColor: 'rgba(0, 0, 0, 0.5)',
+                        },
+                    }}
+                >
+                    <Fade in timeout={1500}>
+                        <Box sx={{ zIndex: 1, textAlign: 'center', color: 'white' }}>
+                            <Typography variant="h1" component="h1" gutterBottom sx={{ fontWeight: 'bold', textShadow: '2px 2px 4px rgba(0,0,0,0.5)' }}>
+                                Muffins
+                            </Typography>
+                            <Typography variant="h4" gutterBottom sx={{ textShadow: '1px 1px 2px rgba(0,0,0,0.5)' }}>
+                                Grow Your Stream
+                            </Typography>
+                            <Typography variant="h6" gutterBottom sx={{ textShadow: '1px 1px 2px rgba(0,0,0,0.5)' }}>
+                                Full-service promotion for streamers & YouTubers
+                            </Typography>
+                            <Button
+                                variant="contained"
+                                size="large"
+                                color="secondary"
+                                component={Link} to="/register"
+                                sx={{ mt: 2, mr: 2, px: 4, py: 1.5, fontSize: '1.2rem' }}
+                            >
+                                Get Started
+                            </Button>
+                            <Button
+                                variant="outlined"
+                                size="large"
+                                color="inherit"
+                                component={Link} to="/login"
+                                sx={{ mt: 2, px: 4, py: 1.5, fontSize: '1.2rem' }}
+                            >
+                                Log In
+                            </Button>
+                        </Box>
+                    </Fade>
+                </Box>
 
-            {/* Блок с тарифами */}
-            <Box
-                sx={{
-                    backgroundImage: 'url(https://source.unsplash.com/1600x900/?tech)',
-                    backgroundAttachment: 'fixed',
-                    backgroundSize: 'cover',
-                    backgroundPosition: 'center',
-                    py: 8,
-                }}
-            >
-                <Container maxWidth="lg">
-                    <Typography variant="h3" align="center" gutterBottom color="primary" sx={{ fontWeight: 'bold', mb: 6 }}>
-                        Our Packages
-                    </Typography>
-                    <Grid container spacing={isMobile ? 2 : 4}>
-                        {tariffs.map((tariff, idx) => (
-                            <Grid size={{ xs: 12, md: 4 }} key={idx}>
-                                <ScrollHandler>
-                                    <Card
+                {/* Блок с тарифами */}
+                <Box
+                    sx={{
+                        backgroundImage: 'url(https://source.unsplash.com/1600x900/?tech)',
+                        backgroundAttachment: 'fixed',
+                        backgroundSize: 'cover',
+                        backgroundPosition: 'center',
+                        py: 8,
+                    }}
+                >
+                    <Container maxWidth="lg">
+                        <Typography variant="h3" align="center" gutterBottom color="primary" sx={{ fontWeight: 'bold', mb: 6 }}>
+                            Our Packages
+                        </Typography>
+                        <Grid container spacing={isMobile ? 2 : 4}>
+                            {tariffs.map((tariff, idx) => (
+                                <Grid size={{ xs: 12, md: 4 }} key={idx}>
+                                    <ScrollHandler>
+                                        <Card
+                                            sx={{
+                                                height: '100%',
+                                                display: 'flex',
+                                                flexDirection: 'column',
+                                                background: 'white',
+                                                borderRadius: 4,
+                                                boxShadow: 6,
+                                                transition: 'transform 0.3s ease, box-shadow 0.3s ease',
+                                                '&:hover': {
+                                                    transform: 'translateY(-10px)',
+                                                    boxShadow: 12,
+                                                },
+                                                ...(tariff.popular && {
+                                                    border: '3px solid #ff6b6b',
+                                                    transform: 'scale(1.05)',
+                                                    zIndex: 1,
+                                                }),
+                                            }}
+                                        >
+                                            {tariff.popular && (
+                                                <Box
+                                                    sx={{
+                                                        position: 'absolute',
+                                                        top: -10,
+                                                        left: '50%',
+                                                        transform: 'translateX(-50%)',
+                                                        background: '#ff6b6b',
+                                                        color: 'white',
+                                                        px: 2,
+                                                        py: 0.5,
+                                                        borderRadius: '20px',
+                                                        fontSize: '0.8rem',
+                                                        fontWeight: 'bold',
+                                                    }}
+                                                >
+                                                    POPULAR
+                                                </Box>
+                                            )}
+                                            <CardContent sx={{ flexGrow: 1, p: 3 }}>
+                                                <Typography variant="h5" component="h3" gutterBottom align="center">
+                                                    {tariff.name}
+                                                </Typography>
+                                                <Typography variant="h4" color="primary" align="center" gutterBottom>
+                                                    {tariff.price}
+                                                </Typography>
+                                                <ul>
+                                                    {tariff.services.map((service, i) => (
+                                                        <li key={i}>{service}</li>
+                                                    ))}
+                                                </ul>
+                                            </CardContent>
+                                            <Box sx={{ p: 2 }}>
+                                                <Button
+                                                    variant={tariff.popular ? 'contained' : 'outlined'}
+                                                    color="primary"
+                                                    fullWidth
+                                                    component={Link} to="/register"
+                                                >
+                                                    Choose Plan
+                                                </Button>
+                                            </Box>
+                                        </Card>
+                                    </ScrollHandler>
+                                </Grid>
+                            ))}
+                        </Grid>
+                    </Container>
+                </Box>
+
+                {/* Примеры работ */}
+                <Box
+                    sx={{
+                        backgroundImage: 'url(https://source.unsplash.com/1600x900/?design)',
+                        backgroundAttachment: 'fixed',
+                        backgroundSize: 'cover',
+                        backgroundPosition: 'center',
+                        py: 8,
+                    }}
+                >
+                    <Container maxWidth="lg">
+                        <Typography variant="h3" align="center" gutterBottom color="secondary" sx={{ fontWeight: 'bold', mb: 6 }}>
+                            Examples
+                        </Typography>
+                        <Grid container spacing={isMobile ? 2 : 4}>
+                            {examples.map((example, idx) => (
+                                <Grid size={{ xs: 12, md: 4 }} key={idx}>
+                                    <Card sx={{ borderRadius: 4, boxShadow: 4, transition: 'transform 0.3s ease', '&:hover': { transform: 'scale(1.03)' } }}>
+                                        <CardMedia
+                                            component="img"
+                                            height="200"
+                                            image={example.image}
+                                            alt={example.title}
+                                        />
+                                        <CardContent>
+                                            <Typography gutterBottom variant="h6" component="h4">
+                                                {example.title}
+                                            </Typography>
+                                        </CardContent>
+                                    </Card>
+                                </Grid>
+                            ))}
+                        </Grid>
+                    </Container>
+                </Box>
+
+                {/* Отзывы */}
+                <Box
+                    sx={{
+                        backgroundImage: 'url(https://source.unsplash.com/1600x900/?feedback)',
+                        backgroundAttachment: 'fixed',
+                        backgroundSize: 'cover',
+                        backgroundPosition: 'center',
+                        py: 8,
+                    }}
+                >
+                    <Container maxWidth="md">
+                        <Typography variant="h3" align="center" gutterBottom color="primary" sx={{ fontWeight: 'bold', mb: 6 }}>
+                            What Our Clients Say
+                        </Typography>
+                        <Grid container spacing={isMobile ? 2 : 4}>
+                            {reviews.map((review, idx) => (
+                                <Grid size={{ xs: 12, md: 4 }} key={idx}>
+                                    <Paper
+                                        elevation={6}
                                         sx={{
+                                            p: 3,
+                                            textAlign: 'center',
                                             height: '100%',
-                                            display: 'flex',
-                                            flexDirection: 'column',
-                                            background: 'white',
                                             borderRadius: 4,
-                                            boxShadow: 6,
-                                            ...(tariff.popular && {
-                                                border: '3px solid #ff6b6b',
-                                                transform: 'scale(1.05)',
-                                                zIndex: 1,
-                                            }),
+                                            background: 'white',
+                                            transition: 'transform 0.3s ease',
+                                            '&:hover': { transform: 'scale(1.03)' },
                                         }}
                                     >
-                                        {tariff.popular && (
-                                            <Box
-                                                sx={{
-                                                    position: 'absolute',
-                                                    top: -10,
-                                                    left: '50%',
-                                                    transform: 'translateX(-50%)',
-                                                    background: '#ff6b6b',
-                                                    color: 'white',
-                                                    px: 2,
-                                                    py: 0.5,
-                                                    borderRadius: '20px',
-                                                    fontSize: '0.8rem',
-                                                    fontWeight: 'bold',
-                                                }}
-                                            >
-                                                POPULAR
-                                            </Box>
-                                        )}
-                                        <CardContent sx={{ flexGrow: 1, p: 3 }}>
-                                            <Typography variant="h5" component="h3" gutterBottom align="center">
-                                                {tariff.name}
-                                            </Typography>
-                                            <Typography variant="h4" color="primary" align="center" gutterBottom>
-                                                {tariff.price}
-                                            </Typography>
-                                            <ul>
-                                                {tariff.services.map((service, i) => (
-                                                    <li key={i}>{service}</li>
-                                                ))}
-                                            </ul>
-                                        </CardContent>
-                                        <Box sx={{ p: 2 }}>
-                                            <Button
-                                                variant={tariff.popular ? 'contained' : 'outlined'}
-                                                color="primary"
-                                                fullWidth
-                                                component={Link} to="/register"
-                                            >
-                                                Choose Plan
-                                            </Button>
-                                        </Box>
-                                    </Card>
-                                </ScrollHandler>
-                            </Grid>
-                        ))}
-                    </Grid>
-                </Container>
-            </Box>
+                                        <Rating value={review.rating} readOnly />
+                                        <Typography variant="h6">{review.name}</Typography>
+                                        <Typography color="textSecondary">{review.text}</Typography>
+                                    </Paper>
+                                </Grid>
+                            ))}
+                        </Grid>
+                    </Container>
+                </Box>
 
-            {/* Примеры работ */}
-            <Box
-                sx={{
-                    backgroundImage: 'url(https://source.unsplash.com/1600x900/?design)',
-                    backgroundAttachment: 'fixed',
-                    backgroundSize: 'cover',
-                    backgroundPosition: 'center',
-                    py: 8,
-                }}
-            >
-                <Container maxWidth="lg">
-                    <Typography variant="h3" align="center" gutterBottom color="secondary" sx={{ fontWeight: 'bold', mb: 6 }}>
-                        Examples
-                    </Typography>
-                    <Grid container spacing={isMobile ? 2 : 4}>
-                        {examples.map((example, idx) => (
-                            <Grid size={{ xs: 12, md: 4 }} key={idx}>
-                                <Card sx={{ borderRadius: 4, boxShadow: 4 }}>
-                                    <CardMedia
-                                        component="img"
-                                        height="200"
-                                        image={example.image}
-                                        alt={example.title}
-                                    />
-                                    <CardContent>
-                                        <Typography gutterBottom variant="h6" component="h4">
-                                            {example.title}
-                                        </Typography>
-                                    </CardContent>
-                                </Card>
-                            </Grid>
-                        ))}
-                    </Grid>
-                </Container>
+                {/* Кнопка "наверх" */}
+                <Fab
+                    color="primary"
+                    size="small"
+                    onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+                    sx={{
+                        position: 'fixed',
+                        bottom: 16,
+                        right: 16,
+                        boxShadow: 4,
+                    }}
+                >
+                    <KeyboardArrowUpIcon />
+                </Fab>
             </Box>
-
-            {/* Отзывы */}
-            <Box
-                sx={{
-                    backgroundImage: 'url(https://source.unsplash.com/1600x900/?feedback)',
-                    backgroundAttachment: 'fixed',
-                    backgroundSize: 'cover',
-                    backgroundPosition: 'center',
-                    py: 8,
-                }}
-            >
-                <Container maxWidth="md">
-                    <Typography variant="h3" align="center" gutterBottom color="primary" sx={{ fontWeight: 'bold', mb: 6 }}>
-                        What Our Clients Say
-                    </Typography>
-                    <Grid container spacing={isMobile ? 2 : 4}>
-                        {reviews.map((review, idx) => (
-                            <Grid size={{ xs: 12, md: 4 }} key={idx}>
-                                <Paper elevation={6} sx={{ p: 3, textAlign: 'center', height: '100%', borderRadius: 4, background: 'white' }}>
-                                    <Rating value={review.rating} readOnly />
-                                    <Typography variant="h6">{review.name}</Typography>
-                                    <Typography color="textSecondary">{review.text}</Typography>
-                                </Paper>
-                            </Grid>
-                        ))}
-                    </Grid>
-                </Container>
-            </Box>
-
-            {/* Кнопка "наверх" */}
-            <Fab
-                color="primary"
-                size="small"
-                onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-                sx={{
-                    position: 'fixed',
-                    bottom: 16,
-                    right: 16,
-                    boxShadow: 4,
-                }}
-            >
-                <KeyboardArrowUpIcon />
-            </Fab>
-        </Box>
+        </Fade>
     );
 };
 
