@@ -4,21 +4,25 @@ import {
     Container,
     Typography,
     Link,
+    IconButton,
 } from '@mui/material';
 import { Link as RouterLink } from 'react-router-dom';
+import ChatIcon from '@mui/icons-material/Chat';    // Discord
+import PublicIcon from '@mui/icons-material/Public'; // VK
+import SendIcon from '@mui/icons-material/Send';     // Telegram
 
 const Footer: React.FC = () => {
     return (
         <Box
             sx={{
-                background: 'linear-gradient(90deg, #6a11cb 0%, #2575fc 100%)', // ← Градиент как у хедера
+                background: 'linear-gradient(90deg, #6a11cb 0%, #2575fc 100%)', // ← Тот же градиент
                 color: 'white',
-                py: 2, // ← Уменьшили высоту (было py: 6)
+                py: 3, // ← Тот же размер (был py: 2)
                 mt: 4,
             }}
         >
-            <Container maxWidth="md"> {/* ← Уже более узкий */}
-                <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+            <Container maxWidth="lg">
+                <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 2 }}>
                     {/* Логотип */}
                     <Typography
                         variant="h6"
@@ -41,7 +45,7 @@ const Footer: React.FC = () => {
                             to="/"
                             color="inherit"
                             underline="hover"
-                            sx={{ fontFamily: 'Roboto, sans-serif' }} // ← Шрифт как у хедера
+                            sx={{ fontFamily: 'Roboto, sans-serif' }}
                         >
                             Home
                         </Link>
@@ -54,21 +58,28 @@ const Footer: React.FC = () => {
                         >
                             Register
                         </Link>
-                        <Link
-                            component={RouterLink}
-                            to="/login"
-                            color="inherit"
-                            underline="hover"
-                            sx={{ fontFamily: 'Roboto, sans-serif' }}
-                        >
-                            Log In
-                        </Link>
+                    </Box>
+
+                    {/* Соцсети */}
+                    <Box sx={{ display: 'flex', gap: 1 }}>
+                        <IconButton color="inherit" href="#" target="_blank">
+                            <ChatIcon /> {/* Discord */}
+                        </IconButton>
+                        <IconButton color="inherit" href="#" target="_blank">
+                            <PublicIcon /> {/* VK */}
+                        </IconButton>
+                        <IconButton color="inherit" href="#" target="_blank">
+                            <SendIcon /> {/* Telegram */}
+                        </IconButton>
                     </Box>
                 </Box>
 
-                {/* Копирайт */}
-                <Box sx={{ textAlign: 'center', mt: 1 }}>
+                {/* Контакты и копирайт */}
+                <Box sx={{ textAlign: 'center', mt: 2 }}>
                     <Typography variant="body2" color="inherit" sx={{ fontFamily: 'Roboto, sans-serif' }}>
+                        Email: hello@muffins.dev
+                    </Typography>
+                    <Typography variant="body2" color="inherit" sx={{ fontFamily: 'Roboto, sans-serif', mt: 1 }}>
                         © {new Date().getFullYear()} Muffins. All rights reserved.
                     </Typography>
                 </Box>
