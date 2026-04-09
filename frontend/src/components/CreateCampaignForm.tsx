@@ -2,7 +2,9 @@ import React, { useState, useEffect } from 'react';
 import {
     Container,
     Paper,
-    TextField    Grid,
+    TextField,
+    Button,
+    Grid,
     Typography,
     FormControl,
     InputLabel,
@@ -217,7 +219,7 @@ const CreateCampaignForm: React.FC = () => {
                                 <Typography variant="h6" gutterBottom>
                                     Какова цель вашей кампании?
                                 </Typography>
-                                <Tooltip title="Выбор цели позволит системе правильно подобрать настройки продвижения." arrow>
+                                <Tooltip title="Выбор цели позволит системе правильно подобрать настройки продвижения и рекламные форматы." arrow>
                                     <IconButton size="small" sx={{ ml: 1 }}>
                                         <Info />
                                     </IconButton>
@@ -325,7 +327,7 @@ const CreateCampaignForm: React.FC = () => {
 
                                 <FormControlLabel
                                     control={
-                                        <input
+ <input
                                             type="checkbox"
                                             checked={formData.audience_auto}
                                             onChange={(e) => setFormData({...formData, audience_auto: e.target.checked})}
