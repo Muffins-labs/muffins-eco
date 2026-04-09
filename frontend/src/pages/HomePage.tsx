@@ -21,7 +21,7 @@ import {
     Card,
     CardContent,
     CircularProgress,
-    unstable_Grid as Grid,
+    unstable_Grid as Grid, // ← Правильный импорт для v7
     Fade,
 } from '@mui/material';
 import { Info, ArrowForwardIos, ArrowBackIos } from '@mui/icons-material';
@@ -181,7 +181,7 @@ const HomePage: React.FC = () => {
         );
     }
 
-    // шага (parallax)
+    // Фон для каждого шага (parallax)
     const backgrounds = [
         'https://source.unsplash.com/1600x900/?gaming,livestream', // Цель
         'https://source.unsplash.com/1600x900/?streamer,setup', // Информация
@@ -213,8 +213,6 @@ const HomePage: React.FC = () => {
                             bottom: 0,
                             backgroundColor: 'rgba(0, 0, 0, 0.5)',
                         },
-                    }}
-                >
                     <Fade in timeout={1500}>
                         <Box sx={{ zIndex: 1, textAlign: 'center', color: 'white' }}>
                             <Typography variant="h1" component="h1" gutterBottom sx={{ fontWeight: 'bold', textShadow: '2px 2px 4px rgba(0,0,0,0.5)' }}>
@@ -405,7 +403,7 @@ const HomePage: React.FC = () => {
                                         </Typography>
                                         <Grid container spacing={2}>
                                             {tariffs.map((tariff) => (
-                                                <Grid size={{ xs: 12, md: 4 }} key={tariff.id}>
+                                                <Grid size={{ xs: 12, md: 4 }} key={tariff.id}> {/* ← Правильный синтаксис */}
                                                     <Card
                                                         sx={{
                                                             height: '100%',
