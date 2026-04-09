@@ -215,7 +215,7 @@ const HomePage: React.FC = () => {
                         },
                     }}
                 >
-                    <Fade in={true} timeout={1500}> {/* ← Исправленная строка */}
+                    <Fade in={true} timeout={1500}>
                         <Box sx={{ zIndex: 1, textAlign: 'center', color: 'white' }}>
                             <Typography variant="h1" component="h1" gutterBottom sx={{ fontWeight: 'bold', textShadow: '2px 2px 4px rgba(0,0,0,0.5)' }}>
                                 Muffins
