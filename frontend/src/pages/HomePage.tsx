@@ -1,187 +1,64 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import {
     Box,
     Container,
     Typography,
-    Paper,
-    Stepper,
-    Step,
-    StepLabel,
     Button,
-    FormControl,
-    InputLabel,
-    Select,
-    MenuItem,
-    TextField,
-    RadioGroup,
-    FormControlLabel,
-    Radio,
-    Tooltip,
-    IconButton,
+    Grid,
     Card,
     CardContent,
-    CircularProgress,
+    CardActions,
+    Paper,
+    useTheme,
+    useMediaQuery,
 } from '@mui/material';
-import { Info, ArrowForwardIos, ArrowBackIos } from '@mui/icons-material';
 import { Link } from 'react-router-dom';
 
-interface Tariff {
-    id: number;
-    name: string;
-    price: number;
-    services: string[];
-}
-
-interface FormData {
-    goal: string;
-    content_type: 'stream' | 'video' | '';
-    channel_url: string;
-    channel_nickname: string;
-    game_genre: string;
-    audience_age: string;
-    audience_region: string;
-    audience_auto: boolean;
-    tariff_id: number;
-    budget: number;
-    duration: number;
-    user_id: number;
-}
-
-const steps = [
-    { label: 'Цель кампании', description: 'Выберите, какую задачу вы хотите решить.' },
-    { label: 'Информация о канале', description: 'Введите данные о вашем Twitch или YouTube канале.' },
-    { label: 'Целевая аудитория', description: 'Определите, кто будет смотреть ваш контент.' },
-    { label: 'Тариф и опции', description: 'Выберите подходящий тариф и настройте кампанию.' },
-    { label: 'Подтверждение', description: 'Проверьте данные и отправьте заявку.' },
-];
-
 const HomePage: React.FC = () => {
-    const [formData, setFormData] = useState<FormData>({
-        goal: '',
-        content_type: '',
-        channel_url: '',
-        channel_nickname: '',
-        game_genre: '',
-        audience_age: '18-25',
-        audience_region: 'RU',
-        audience_auto: true,
-        tariff_id: 1,
-        budget: 5000,
-        duration: 30,
-        user_id: 1,
-    });
-    const [tariffs, setTariffs] = useState<Tariff[]>([]);
-    const [loading, setLoading] = useState(true);
-    const [activeStep, setActiveStep] = useState(0);
+    const theme = useTheme();
+    const isMobile = useMediaQuery(theme.breakpoints.down('md'));
 
-    useEffect(() => {
-        const fetchTariffs = async () => {
-            try {
-                const response = await fetch('http://127.0.0.1:8000/tariffs');
-                if (response.ok) {
-                    const data = await response.json();
-                    setTariffs(data);
-                } else {
-                    console.error('Failed to fetch tariffs');
-                }
-            } catch (error) {
-                console.error('Error fetching tariffs:', error);
-            } finally {
-                setLoading(false);
-            }
-        };
+    // Тарифы
+    const tariffs = [
+        {
+            name: 'Silver Package',
+            price: '3 990 ₽',
+            services: ['Обложки', 'Иконки', 'Шапка'],
+            popular: false,
+        },
+        {
+            name: 'Gold Package',
+            price: '7 490 ₽',
+            services: ['OBS-шаблоны', 'Discord-сервер', 'Контент-план'],
+            popular: true,
+        },
+        {
+            name: 'Platinum Package',
+            price: '15 890 ₽',
+            services: ['Всё включено', 'Поддержка 1 месяц', 'Стратегия'],
+: false,
+        },
+    ];
 
-        fetchTariffs();
-    }, []);
-
-    const handleNext = () => {
-        setActiveStep(prev => prev + 1);
-    };
-
-    const handleBack = () => {
-        setActiveStep(prev => prev - 1);
-    };
-
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const { name, value } = e.target;
-        setFormData({
-            ...formData,
-            [name]: value,
-        });
-    };
-
-    const handleContentTypeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setFormData({
-            ...formData,
-            content_type: e.target.value as 'stream' | 'video',
-        });
-    };
-
-    const handleTariffChange = (e: React.ChangeEvent<{ value: unknown }>) => {
-        setFormData({
-            ...formData,
-            tariff_id: e.target.value as number,
-        });
-    };
-
-    const handleSubmit = async (e: React.FormEvent) => {
-        e.preventDefault();
-
-        const token = localStorage.getItem('access_token');
-        if (!token) {
-            alert('Please log in first');
-            return;
-        }
-
-        try {
-            const response = await fetch('http://127.0.0.1:8000/campaigns', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}`,
-                },
-                body: JSON.stringify(formData),
-            });
-
-            if (response.ok) {
-                alert('Campaign created successfully!');
-                // Reset form
-                setFormData({
-                    goal: '',
-                    content_type: '',
-                    channel_url: '',
-                    channel_nickname: '',
-                    game_genre: '',
-                    audience_age: '18-25',
-                    audience_region: 'RU',
-                    audience_auto: true,
-                    tariff_id: 1,
-                    budget: 5000,
-                    duration: 30,
-                    user_id: 1,
-                });
-                setActiveStep(0); // Вернуть на первый шаг
-            } else {
-                const errorData = await response.json();
-                alert(`Error: ${errorData.detail || 'Unknown error'}`);
-            }
-        } catch (error) {
-            console.error('Error during campaign creation:', error);
-            alert('Network error. Please try again later.');
-        }
-    };
-
-    if (loading) {
-        return (
-            <Box sx={{ display: 'flex', justifyContent: 'center', mt: 5 }}>
-                <CircularProgress />
-            </Box>
-        );
-    }
+    // Что мы делаем
+    const services = [
+        {
+            title: 'Дизайн',
+            description: 'Обложки, иконки, шапки, баннеры',
+        },
+        {
+            title: 'OBS Setup',
+            description: 'Шаблоны, настройка, плагины',
+        },
+        {
+            title: 'Discord',
+            description: 'Создание, настройка, модерация',
+        },
+    ];
 
     return (
         <Box sx={{ minHeight: '100vh', overflowX: 'hidden', background: 'linear-gradient(135deg, #f0f2f5 0%, #e6e9ef 100%)' }}>
-            {/* Простой баннер */}
+            {/* 1. О компании Muffins */}
             <Box
                 sx={{
                     height: '100vh',
@@ -213,267 +90,108 @@ const HomePage: React.FC = () => {
                     <Typography variant="h6" gutterBottom sx={{ textShadow: '1px 1px 2px rgba(0,0,0,0.5)' }}>
                         Full-service promotion for streamers & YouTubers
                     </Typography>
-                    <Button
-                        variant="contained"
-                        size="large"
-                        color="secondary"
-                        component={Link} to="/register"
-                        sx={{ mt: 2, mr: 2, px: 4, py: 1.5, fontSize: '1.2rem' }}
-                    >
-                        Get Started
-                    </Button>
-                    <Button
-                        variant="outlined"
-                        size="large"
-                        color="inherit"
-                        component={Link} to="/login"
-                        sx={{ mt: 2, px: 4, py: 1.5, fontSize: '1.2rem' }}
-                    >
-                        Log In
-                    </Button>
                 </Box>
             </Box>
 
-            {/* Stepper с вертикальным расположением */}
-            <Container maxWidth="md" sx={{ py: 8 }}>
-                <Paper sx={{ p: 4, background: 'rgba(255, 255, 255, 0.9)', backdropFilter: 'blur(10px)', borderRadius: 4 }}>
-                    <Stepper activeStep={activeStep} orientation="vertical">
-                        {steps.map((step, index) => (
-                            <Step key={step.label}>
-                                <StepLabel>{step.label}</StepLabel>
-                                <Box sx={{ pl: 4, pb: 4 }}>
-                                    <Typography variant="body2" color="textSecondary" sx={{ mb: 2 }}>
-                                        {step.description}
+            {/* 2. Что мы делаем */}
+            <Container maxWidth="lg" sx={{ py: 8 }}>
+                <Typography variant="h3" align="center" gutterBottom color="primary" sx={{ fontWeight: 'bold' }}>
+                    What We Do
+                </Typography>
+                <Grid container spacing={isMobile ? 2 : 4} sx={{ mt: 2 }}>
+                    {services.map((service, idx) => (
+                        <Grid size={{ xs: 12, md: 4 }} key={idx}>
+                            <Card sx={{ height: '100%', boxShadow: 4 }}>
+                                <CardContent>
+                                    <Typography variant="h5" gutterBottom>
+                                        {service.title}
                                     </Typography>
-
-                                    {/* Шаг 1: Цель кампании */}
-                                    {index === 0 && (
-                                        <Box>
-                                            <Typography variant="h6" gutterBottom>
-                                                Какова цель вашей кампании?
-                                            </Typography>
-                                            <Tooltip title="Выбор цели позволит системе правильно подобрать настройки продвижения и рекламные форматы." arrow>
-                                                <IconButton size="small" sx={{ ml: 1 }}>
-                                                    <Info />
-                                                </IconButton>
-                                            </Tooltip>
-                                            <FormControl fullWidth required sx={{ mb: 2 }}>
-                                                <InputLabel>Цель</InputLabel>
-                                                <Select
-                                                    name="goal"
-                                                    value={formData.goal}
-                                                    onChange={handleChange}
-                                                >
-                                                    <MenuItem value="subscribers">Привлечь новых подписчиков</MenuItem>
-                                                    <MenuItem value="views">Увеличить количество просмотров</MenuItem>
-                                                    <MenuItem value="streams">Популяризовать стрим</MenuItem>
-                                                    <MenuItem value="discord">Продвинуть Discord-сервер</MenuItem>
-                                                </Select>
-                                            </FormControl>
-
-                                            <Typography variant="h6" gutterBottom sx={{ mt: 2 }}>
-                                                Выберите тип контента:
-                                            </Typography>
-                                            <RadioGroup
-                                                name="content_type"
-                                                value={formData.content_type}
-                                                onChange={handleContentTypeChange}
-                                                row
-                                            >
-                                                <FormControlLabel value="stream" control={<Radio />} label="Стримы (Twitch)" />
-                                                <FormControlLabel value="video" control={<Radio />} label="Видеоблог (YouTube)" />
-                                            </RadioGroup>
-                                        </Box>
-                                    )}
-
-                                    {/* Шаг 2: Информация о канале */}
-                                    {index === 1 && (
-                                        <Box>
-                                            <Typography variant="h6" gutterBottom>
-                                                Информация о вашем канале
-                                            </Typography>
-                                            <TextField
-                                                name="channel_url"
-                                                fullWidth
-                                                label="Ссылка на канал"
-                                                value={formData.channel_url}
-                                                onChange={handleChange}
-                                                sx={{ mb: 2 }}
-                                            />
-                                            <TextField
-                                                name="channel_nickname"
-                                                fullWidth
-                                                label="Ник на канале"
-                                                value={formData.channel_nickname}
-                                                onChange={handleChange}
-                                                sx={{ mb: 2 }}
-                                            />
-                                            <FormControl fullWidth required sx={{ mb: 2 }}>
-                                                <InputLabel>Жанр</InputLabel>
-                                                <Select
-                                                    name="game_genre"
-                                                    value={formData.game_genre}
-                                                    onChange={handleChange}
-                                                >
-                                                    <MenuItem value="gta">GTA / Миссии</MenuItem>
-                                                    <MenuItem value="valorant">Valorant</MenuItem>
-                                                    <MenuItem value="just_chatting">Just Chatting</MenuItem>
-                                                    <MenuItem value="minecraft">Minecraft</MenuItem>
-                                                    <MenuItem value="other">Другое</MenuItem>
-                                                </Select>
-                                            </FormControl>
-                                        </Box>
-                                    )}
-
-                                    {/* Шаг 3: Целевая аудитория */}
-                                    {index === 2 && (
-                                        <Box>
-                                            <Typography variant="h6" gutterBottom>
-                                                Целевая аудитория
-                                            </Typography>
-                                            <FormControl fullWidth required sx={{ mb: 2 }}>
-                                                <InputLabel>Возраст</InputLabel>
-                                                <Select
-                                                    name="audience_age"
-                                                    value={formData.audience_age}
-                                                    onChange={handleChange}
-                                                >
-                                                    <MenuItem value="13-17">13-17 лет</MenuItem>
-                                                    <MenuItem value="18-25">18-25 лет</MenuItem>
-                                                    <MenuItem value="26-35">26-35 лет</MenuItem>
-                                                    <MenuItem value="36+">36+ лет</MenuItem>
-                                                </Select>
-                                            </FormControl>
-
-                                            <FormControl fullWidth required sx={{ mb: 2 }}>
-                                                <InputLabel>Регион</InputLabel>
-                                                <Select
-                                                    name="audience_region"
-                                                    value={formData.audience_region}
-                                                    onChange={handleChange}
-                                                >
-                                                    <MenuItem value="RU">Россия</MenuItem>
-                                                    <MenuItem value="CIS">СНГ</MenuItem>
-                                                    <MenuItem value="WW">Мир</MenuItem>
-                                                </Select>
-                                            </FormControl>
-
-                                            <FormControlLabel
-                                                control={
-                                                    <input
-                                                        type="checkbox"
-                                                        checked={formData.audience_auto}
-                                                        onChange={(e) => setFormData({...formData, audience_auto: e.target.checked})}
-                                                    />
-                                                }
-                                                label="Довериться системе (автоопределение)"
-                                            />
-                                        </Box>
-                                    )}
-
-                                    {/* Шаг 4: Тариф и опции */}
-                                    {index === 3 && (
-                                        <Box>
-                                            <Typography variant="h6" gutterBottom>
-                                                Выберите тариф
-                                            </Typography>
-                                            {tariffs.map((tariff) => (
-                                                <Card
-                                                    key={tariff.id}
-                                                    sx={{
-                                                        mb: 2,
-                                                        display: 'flex',
-                                                        flexDirection: 'column',
-                                                        background: tariff.id === formData.tariff_id ? 'linear-gradient(90deg, #6a11cb 0%, #2575fc 100%)' : 'white',
-                                                        color: tariff.id === formData.tariff_id ? 'white' : 'inherit',
-                                                        borderRadius: 4,
-                                                        boxShadow: 6,
-                                                        cursor: 'pointer',
-                                                        transition: 'transform 0.3s ease, box-shadow 0.3s ease',
-                                                        '&:hover': {
-                                                            transform: 'translateY(-5px)',
-                                                            boxShadow: 10,
-                                                        },
-                                                    }}
-                                                    onClick={() => setFormData({ ...formData, tariff_id: tariff.id })}
-                                                >
-                                                    <CardContent sx={{ flexGrow: 1, p: 3 }}>
-                                                        <Typography variant="h6" component="h3" gutterBottom align="center">
-                                                            {tariff.name}
-                                                        </Typography>
-                                                        <Typography variant="h5" align="center" gutterBottom>
-                                                            {tariff.price} ₽
-                                                        </Typography>
-                                                        <ul>
-                                                            {tariff.services.map((service, i) => (
-                                                                <li key={i}>{service}</li>
-                                                            ))}
-                                                        </ul>
-                                                    </CardContent>
-                                                </Card>
-                                            ))}
-                                            <TextField
-                                                name="budget"
-                                                fullWidth
-                                                label="Бюджет (₽)"
-                                                type="number"
-                                                value={formData.budget}
-                                                onChange={handleChange}
-                                                sx={{ mt: 2 }}
-                                            />
-                                            <TextField
-                                                name="duration"
-                                                fullWidth
-                                                label="Срок (дней)"
-                                                type="number"
-                                                value={formData.duration}
-                                                onChange={handleChange}
-                                                sx={{ mt: 2 }}
-                                            />
-                                        </Box>
-                                    )}
-
-                                    {/* Шаг 5: Подтверждение */}
-                                    {index === 4 && (
-                                        <Box>
-                                            <Typography variant="h6" gutterBottom>
-                                                Подтвердите данные кампании
-                                            </Typography>
-                                            <Typography><strong>Цель:</strong> {formData.goal}</Typography>
-                                            <Typography><strong>Тип контента:</strong> {formData.content_type === 'stream' ? 'Стримы' : 'Видеоблог'}</Typography>
-                                            <Typography><strong>Ссылка:</strong> {formData.channel_url}</Typography>
-                                            <Typography><strong>Жанр:</strong> {formData.game_genre}</Typography>
-                                            <Typography><strong>Бюджет:</strong> {formData.budget} ₽</Typography>
-                                            <Typography><strong>Срок:</strong> {formData.duration} дней</Typography>
-                                        </Box>
-                                    )}
-
-                                    <Box sx={{ pt: 2 }}>
-                                        <Button
-                                            disabled={index === 0}
-                                            onClick={handleBack}
-                                            startIcon={<ArrowBackIos />}
-                                            variant="outlined"
-                                            color="primary"
-                                            sx={{ mr: 2 }}
-                                        >
-                                            Назад
-                                        </Button>
-                                        <Button
-                                            variant="contained"
-                                            color="primary"
-                                            endIcon={<ArrowForwardIos />}
-                                            onClick={index === steps.length - 1 ? handleSubmit : handleNext}
-                                        >
-                                            {index === steps.length - 1 ? 'Создать кампанию' : 'Далее'}
-                                        </Button>
-                                    </Box>
-                                </Box>
-                            </Step>
-                        ))}
-                    </Stepper>
-                </Paper>
+                                    <Typography color="textSecondary">
+                                        {service.description}
+                                    </Typography>
+                                </CardContent>
+                            </Card>
+                        </Grid>
+                    ))}
+                </Grid>
             </Container>
+
+            {/* 3. Наши тарифы */}
+            <Container maxWidth="lg" sx={{ py: 8, background: 'linear-gradient(to bottom, #ffffff, #f0f4f8)' }}>
+                <Typography variant="h3" align="center" gutterBottom color="primary" sx={{ fontWeight: 'bold' }}>
+                    Our Packages
+                </Typography>
+                <Grid container spacing={isMobile ? 2 : 4} sx={{ mt: 2 }}>
+                    {tariffs.map((tariff, idx) => (
+                        <Grid size={{ xs: 12, md: 4 }} key={idx}>
+                            <Card
+                                sx={{
+                                    height: '100%',
+                                    display: 'flex',
+                                    flexDirection: 'column',
+                                    position: 'relative',
+                                    ...(tariff.popular && {
+                                        border: '3px solid #ff6b6b',
+                                        transform: 'scale(1.05)',
+                                        zIndex: 1,
+                                    }),
+                                }}
+                            >
+                                {tariff.popular && (
+                                    <Box
+                                        sx={{
+                                            position: 'absolute',
+                                            top: -10,
+                                            left: '50%',
+                                            transform: 'translateX(-50%)',
+                                            background: '#ff6b6b',
+                                            color: 'white',
+                                            px: 2,
+                                            py: 0.5,
+                                            borderRadius: '20px',
+                                            fontSize: '0.8rem',
+                                            fontWeight: 'bold',
+                                        }}
+                                    >
+                                        POPULAR
+                                    </Box>
+                                )}
+                                <CardContent sx={{ flexGrow: 1 }}>
+                                    <Typography variant="h5" component="h3" gutterBottom align="center">
+                                        {tariff.name}
+                                    </Typography>
+                                    <Typography variant="h4" color="primary" align="center" gutterBottom>
+                                        {tariff.price}
+                                    </Typography>
+                                    <ul>
+                                        {tariff.services.map((service, i) => (
+                                            <li key={i}>{service}</li>
+                                        ))}
+                                    </ul>
+                                </CardContent>
+                                <CardActions sx={{ justifyContent: 'center', p: 2 }}>
+                                    <Button variant={tariff.popular ? 'contained' : 'outlined'} color="primary">
+                                        Choose Plan
+                                    </Button>
+                                </CardActions>
+                            </Card>
+                        </Grid>
+                    ))}
+                </Grid>
+            </Container>
+
+            {/* 4. Кнопка "Запустить компанию" */}
+            <Box sx={{ py: 8, textAlign: 'center' }}>
+                <Button
+                    variant="contained"
+                    size="large"
+                    color="primary"
+                    component={Link} to="/create-campaign" // ← Переход на Stepper
+                    sx={{ px: 4, py: 1.5, fontSize: '1.2rem' }}
+                >
+                    Запустить компанию
+                </Button>
+            </Box>
         </Box>
     );
 };
