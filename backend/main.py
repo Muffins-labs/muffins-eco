@@ -1,6 +1,7 @@
 from fastapi import FastAPI, Depends, HTTPException, status, Security
 from sqlalchemy.orm import Session
 from typing import List
+from fastapi.middleware.cors import CORSMiddleware
 
 from database import engine, SessionLocal, Base
 from models.user import User as UserModel
