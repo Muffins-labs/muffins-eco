@@ -2,9 +2,7 @@ import React, { useState, useEffect } from 'react';
 import {
     Container,
     Paper,
-    TextField,
-    Button,
-    Grid,
+    TextField    Grid,
     Typography,
     FormControl,
     InputLabel,
@@ -338,7 +336,7 @@ const CreateCampaignForm: React.FC = () => {
                             </Box>
                         )}
 
- 4: Тариф и опции */}
+                        {/* Шаг 4: Тариф и опции */}
                         {activeStep === 3 && (
                             <Box>
                                 <Typography variant="h6" gutterBottom>
