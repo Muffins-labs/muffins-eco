@@ -4,7 +4,8 @@ import {
     Container,
     Typography,
     Button,
-    Grid,
+    // unstable_Grid as Grid, // ← Если используешь v7
+    Grid, // ← Если v6
     Paper,
     useScrollTrigger,
     Slide,
